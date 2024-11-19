@@ -1,19 +1,40 @@
-# 🎈 Blank app template
+import streamlit as st
+import pandas as pd
+import numpy as np
+from datetime import datetime
+import pytz
+from snowflake.snowpark import Session
+from snowflake.snowpark.functions import col
+from transformation.data import process_appointments_data  # Import the function
 
-A simple Streamlit app template for you to modify!
+st.set_page_config(
+    page_title="Daily Set Goals",
+    layout="wide"
+)
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+st.logo("https://i.ibb.co/5R9N3Bs/DAILY-SET-GOALS.png", size="large")
 
-### How to run it on your own machine
-
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .css-10trblm {padding-top: 0px; padding-bottom: 0px;}
+    .css-1d391kg {padding-top: 0px !important;}
+    
+    /* Custom Footer Message */
+    footer:after {
+        content: 'goodbye'; 
+        visibility: visible;
+        display: block;
+        position: relative;
+        padding: 5px;
+        top: 2px;
+        text-align: center;
+        font-size: 14px;
+        color: #ffffff;
+        background-color: #41434A;
+    }
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
