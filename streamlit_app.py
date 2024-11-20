@@ -4,7 +4,8 @@ import numpy as np
 from datetime import datetime
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
-#from data.snowflake_data import get_health_data  # Import the function
+from data.snowflake_data import get_health_data
+from components.summary_card import summary_card
 
 st.set_page_config(
     page_title="Travor's Health Tracker",
@@ -51,24 +52,33 @@ st.markdown(
     }
     .less_than {
         align-self: flex-end; /* Push the element to the bottom */
-        font-size: 20px;
+        font-size: 25px;
         color: #D44B69;
-        background: #E0ACB8;
-        display: inline; /* Background spans text only */
         padding: 4px 4px; /* Space around text */
         border-radius: 5px; /* Rounded corners */
-        margin-top: auto; /* Ensure this element aligns to the bottom */
+        margin-top: -35px; /* Ensure this element aligns to the bottom */
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
-def summary_card(title, caption, summary_number, difference):
-    with st.container(border=True):
-        st.subheader(title)
-        st.markdown(f'<p class="custom-caption">{caption}</p>', unsafe_allow_html=True)
-        st.markdown(f'<p class="summary_number">{summary_number}</p>', unsafe_allow_html=True)
-        if 2 < 3:
-            st.markdown(f'<p class="less_than">➘ -{difference}</p>', unsafe_allow_html=True)
 
-summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = 73, difference = 2)
+df = get_health_data()
+
+today = pd.to_datetime('2024-11-04').date()
+
+df_today = df[(df['DAY'] == today) & (df['METRIC_NAME'] == 'activity.score')]
+
+summary_number = df_today['VALUE'].squeeze().astype(int)
+
+yesterday = pd.to_datetime('2024-11-03').date()
+
+df_today = df[(df['DAY'] == yesterday) & (df['METRIC_NAME'] == 'activity.score')]
+
+yesterday_summary_number = df_today['VALUE'].squeeze().astype(int)
+
+difference = yesterday_summary_number - summary_number
+
+st.dataframe(df_today)
+
+summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = summary_number, difference = difference)
