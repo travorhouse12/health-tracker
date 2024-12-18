@@ -43,27 +43,28 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(
     """
     <style>
-    .custom-caption {
-        margin-top: -16px
+    .custom-caption.custom {
+        margin-top: 10px
     }
     .summary_number.custom {
-        margin-top: -20px;
+        margin-top: -10px;
         font-size: 54px !important;
     }
     .less_than.custom {
         background: #301D25;
         display: inline-block;
-        font-size: 25px !important;
+        font-size: 20px !important;
         color: #D44B69;
         padding: 1px 10px; /* Space around text */
         border-radius: 5px; /* Rounded corners */
-        margin-top: -15px; /* Ensure this element aligns to the bottom */
+        margin-top: -5px; /* Ensure this element aligns to the bottom */
     }
     .greater_than_or_equal_to.custom {
-        align-self: flex-end; /* Push the element to the bottom */
-        font-size: 25px !important;
-        color: #4BD47D;
-        padding: 4px 4px; /* Space around text */
+        background: #182E25;
+        display: inline-block;
+        font-size: 20px !important;
+        color: #43C171;
+        padding: 1px 10px; /* Space around text */
         border-radius: 5px; /* Rounded corners */
         margin-top: -35px; /* Ensure this element aligns to the bottom */
     }
