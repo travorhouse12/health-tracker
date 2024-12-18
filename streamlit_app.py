@@ -44,11 +44,12 @@ st.markdown(
     """
     <style>
     .custom-caption.custom {
-        margin-top: 10px
+        margin-top: -10px
     }
     .summary_number.custom {
         margin-top: -10px;
         font-size: 54px !important;
+        padding-right: 10px;
     }
     .less_than.custom {
         background: #301D25;
@@ -66,7 +67,7 @@ st.markdown(
         color: #43C171;
         padding: 1px 10px; /* Space around text */
         border-radius: 5px; /* Rounded corners */
-        margin-top: -35px; /* Ensure this element aligns to the bottom */
+        margin-left: -35px; /* Ensure this element aligns to the bottom */
     }
     </style>
     """,
