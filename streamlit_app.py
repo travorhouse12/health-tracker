@@ -94,10 +94,10 @@ difference = yesterday_summary_number - summary_number
 cols1, cols2, cols3 = st.columns([1,1, 1])
 
 with cols1:
-    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = summary_number, previous_value = yesterday_summary_number)
+    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = summary_number, previous_value = yesterday_summary_number, information = "Test")
 
 with cols2:
-    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = yesterday_summary_number, previous_value = summary_number)
+    summary_card(title = "Sleep Score", caption = "Today vs. Yesterday", current_value = yesterday_summary_number, previous_value = summary_number, information = "Test")
 
 with cols3:
-    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73)
+    summary_card(title = "Activity Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73, information = "Test")
