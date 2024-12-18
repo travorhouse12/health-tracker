@@ -51,9 +51,18 @@ st.markdown(
         font-size: 54px !important;
     }
     .less_than.custom {
-        align-self: flex-end; /* Push the element to the bottom */
+        background: #301D25;
+        display: inline-block;
         font-size: 25px !important;
         color: #D44B69;
+        padding: 1px 10px; /* Space around text */
+        border-radius: 5px; /* Rounded corners */
+        margin-top: -15px; /* Ensure this element aligns to the bottom */
+    }
+    .greater_than_or_equal_to.custom {
+        align-self: flex-end; /* Push the element to the bottom */
+        font-size: 25px !important;
+        color: #4BD47D;
         padding: 4px 4px; /* Space around text */
         border-radius: 5px; /* Rounded corners */
         margin-top: -35px; /* Ensure this element aligns to the bottom */
@@ -79,13 +88,14 @@ yesterday_summary_number = df_today['VALUE'].squeeze().astype(int)
 
 difference = yesterday_summary_number - summary_number
 
-st.dataframe(df_today)
 
-
-cols1, cols2 = st.columns([1,1])
+cols1, cols2, cols3 = st.columns([1,1, 1])
 
 with cols1:
-    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = summary_number, difference = difference)
+    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = summary_number, previous_value = yesterday_summary_number)
 
 with cols2:
-    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = summary_number, difference = difference)
+    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = yesterday_summary_number, previous_value = summary_number)
+
+with cols3:
+    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73)
