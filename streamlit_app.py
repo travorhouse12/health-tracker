@@ -46,13 +46,13 @@ st.markdown(
     .custom-caption {
         margin-top: -16px
     }
-    .summary_number {
+    .summary_number.custom {
         margin-top: -20px;
-        font-size: 54px;
+        font-size: 54px !important;
     }
-    .less_than {
+    .less_than.custom {
         align-self: flex-end; /* Push the element to the bottom */
-        font-size: 25px;
+        font-size: 25px !important;
         color: #D44B69;
         padding: 4px 4px; /* Space around text */
         border-radius: 5px; /* Rounded corners */
