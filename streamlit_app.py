@@ -81,4 +81,11 @@ difference = yesterday_summary_number - summary_number
 
 st.dataframe(df_today)
 
-summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = summary_number, difference = difference)
+
+cols1, cols2 = st.columns([1,1])
+
+with cols1:
+    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = summary_number, difference = difference)
+
+with cols2:
+    summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", summary_number = summary_number, difference = difference)
