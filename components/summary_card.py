@@ -12,7 +12,7 @@ def summary_card(title, caption, current_value, previous_value, information):
         diff_class = "greater_than_or_equal_to"
         arrow = "➚"
         
-    with st.container(border=True):
+    with st.container():
         st.subheader(title, help=information)
         st.markdown(f'<p class="custom-caption custom">{caption}</p>', unsafe_allow_html=True)
         # Combine the current value and difference into a single line using flex display
