@@ -30,12 +30,6 @@ def summary_card_styling():
         border-radius: 5px; /* Rounded corners */
         margin-left: -35px; /* Ensure this element aligns to the bottom */
     }
-    div[data-testid="stColumn"] {
-        background-color: #14161B;
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #292929;
-    }
     </style>
     """,
     unsafe_allow_html=True,

@@ -35,9 +35,16 @@ yesterday_summary_number = df_today['VALUE'].squeeze().astype(int)
 
 difference = yesterday_summary_number - summary_number
 
-st.segmented_control("", ("Day", "Week", "Month"))
 
-cols1, cols2, cols3 = st.columns([1,1, 1])
+cols1, cols2, cols3 = st.columns([1,1,1])
+
+with cols1:
+    st.segmented_control("", ("Day", "Week", "Month"))
+
+with cols2:
+    st.date_input("")
+
+cols1, cols2, cols3 = st.columns([1,1,1])
 
 with cols1:
     summary_card(title = "Readiness Score", caption = "Today vs. Yesterday", current_value = summary_number, previous_value = yesterday_summary_number, information = "Test")
