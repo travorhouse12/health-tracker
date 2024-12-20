@@ -57,8 +57,8 @@ df_activity = df[df["METRIC_NAME"] == 'activity.score']
 
 cols1, cols2 = st.columns([3,1])
 with cols1:
-    st.header("Metric Comparison")
+    st.header("Comparison")
 with cols2:
     st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
 with st.container(border=True):
-    st.line_chart(data=df_activity, x = "DAY", y="VALUE")
+    st.line_chart(data=df_activity, x = "DAY", y="VALUE", color="#FFDC1E")
