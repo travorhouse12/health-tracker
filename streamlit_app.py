@@ -59,6 +59,6 @@ cols1, cols2 = st.columns([3,1])
 with cols1:
     st.header("Metric Comparison")
 with cols2:
-    st.multiselect("Metrics", ("Test1", "Test2"))
+    st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
 with st.container(border=True):
     st.line_chart(data=df_activity, x = "DAY", y="VALUE")
