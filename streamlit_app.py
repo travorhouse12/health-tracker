@@ -19,6 +19,12 @@ hide_streamlit_menu()
 
 summary_card_styling()
 
+with st.sidebar:
+    st.divider()
+    st.subheader("Filters")
+    st.segmented_control("Group By", ("Day", "Week", "Month"))
+    st.date_input("Select Date Range")
+
 df = get_health_data()
 
 today = pd.to_datetime('2024-11-04').date()
@@ -34,15 +40,6 @@ df_today = df[(df['DAY'] == yesterday) & (df['METRIC_NAME'] == 'activity.score')
 yesterday_summary_number = df_today['VALUE'].squeeze().astype(int)
 
 difference = yesterday_summary_number - summary_number
-
-
-cols1, cols2, cols3 = st.columns([1,1,1])
-
-with cols1:
-    st.segmented_control("", ("Day", "Week", "Month"))
-
-with cols2:
-    st.date_input("")
 
 cols1, cols2, cols3 = st.columns([1,1,1])
 
