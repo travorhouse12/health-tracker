@@ -23,6 +23,7 @@ with st.sidebar:
     st.divider()
     st.subheader("Filters")
     st.segmented_control("Group By", ("Day", "Week", "Month"))
+    st.text(" ")
     st.date_input("Select Date Range")
 
 df = get_health_data()
@@ -51,3 +52,14 @@ with cols2:
 
 with cols3:
     summary_card(title = "Activity Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73, information = "Test")
+
+st.dataframe(df)
+
+df_activity = df[df["METRIC_NAME"] == 'activity_score']
+
+with st.container(border=True):
+    cols1, cols2 = st.columns([1,3])
+    with cols1:
+        st.multiselect("Breakdown", ("Test1", "Test2"))
+    with cols2:
+        st.line_chart(data=df_activity, x = "DAY", y="VALUE")
