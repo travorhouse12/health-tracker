@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from datetime import datetime
+import datetime
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
 from data.snowflake_data import get_health_data
 from components.summary_card import summary_card
+from components.charts import area_line_chart
 from styling.css import summary_card_styling, hide_streamlit_menu
 
 st.set_page_config(
@@ -19,12 +20,16 @@ hide_streamlit_menu()
 
 summary_card_styling()
 
+today = datetime.date.today()
+first_day_of_month = datetime.date(2024, 12, 1)
+last_day_of_month = datetime.date(2024, 12, 31)
+
 with st.sidebar:
     st.divider()
     st.subheader("Filters")
     st.segmented_control("Group By", ("Day", "Week", "Month"))
     st.text(" ")
-    st.date_input("Select Date Range")
+    start_date, end_date = st.date_input("Select Date Range", (first_day_of_month, last_day_of_month))
 
 df = get_health_data()
 
@@ -53,7 +58,9 @@ with cols2:
 with cols3:
     summary_card(title = "Activity Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73, information = "Test")
 
-df_activity = df[df["METRIC_NAME"] == 'activity.score']
+df_activity = df[(df["METRIC_NAME"] == 'activity.score') & (df["DAY"] >= start_date)& (df["DAY"] <= end_date)]
+
+df["DAY"] = pd.to_datetime(df["DAY"]).dt.date
 
 cols1, cols2 = st.columns([3,1])
 with cols1:
@@ -61,4 +68,4 @@ with cols1:
 with cols2:
     st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
 with st.container(border=True):
-    st.line_chart(data=df_activity, x = "DAY", y="VALUE", color="#FFDC1E")
+    area_line_chart(df_activity, x_axis="DAY", y_axis="VALUE", color="#FFDC1E")
