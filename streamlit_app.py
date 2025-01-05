@@ -97,4 +97,6 @@ with cols1:
 with cols2:
     st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
 with st.container(border=True):
+    st.subheader("Comparison", help="Compare various metrics and see how your scores correlate together")
+    st.write(f''':gray[{start_date} - {end_date}]''')
     area_line_chart(df_activity, x_axis="date_period", y_axis="VALUE", color="#FFDC1E")
