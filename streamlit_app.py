@@ -70,6 +70,7 @@ if date_group == "Day":
     df_activity = (
         df_activity.groupby("DAY")
           .mean(numeric_only=True)
+          .round(0)
           .reset_index()
           .rename(columns={"DAY": "date_period"})
     )
@@ -77,6 +78,7 @@ elif date_group == "Week":
     df_activity = (
         df_activity.groupby("activity.week")
           .mean(numeric_only=True)
+          .round(0)
           .reset_index()
           .rename(columns={"activity.week": "date_period"})
     )
@@ -84,6 +86,7 @@ elif date_group == "Month":
     df_activity = (
         df_activity.groupby("activity.month")
           .mean(numeric_only=True)
+          .round(0)
           .reset_index()
           .rename(columns={"activity.month": "date_period"})
     )
