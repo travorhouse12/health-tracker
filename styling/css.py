@@ -5,7 +5,9 @@ def summary_card_styling():
     """
     <style>
     .custom-caption.custom {
-        margin-top: -10px
+        margin-top: -10px;
+        display: inline;
+        color: #7A7A7A;
     }
     .summary_number.custom {
         margin-top: -10px;
