@@ -66,8 +66,6 @@ df_activity["activity.month"] = (
     pd.to_datetime(df_activity["DAY"]).dt.to_period("M").dt.start_time
 )
 
-st.dataframe(df_activity)
-
 if date_group == "Day":
     df_activity = (
         df_activity.groupby("DAY")
@@ -96,5 +94,4 @@ with cols1:
 with cols2:
     st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
 with st.container(border=True):
-    st.dataframe(df_activity)
     area_line_chart(df_activity, x_axis="date_period", y_axis="VALUE", color="#FFDC1E")
