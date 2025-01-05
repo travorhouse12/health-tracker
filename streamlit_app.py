@@ -21,13 +21,13 @@ hide_streamlit_menu()
 summary_card_styling()
 
 today = datetime.date.today()
-first_day_of_month = datetime.date(2024, 12, 1)
-last_day_of_month = datetime.date(2024, 12, 31)
+first_day_of_month = datetime.date(2024, 10, 1)
+last_day_of_month = datetime.date(2024, 10, 31)
 
 with st.sidebar:
     st.divider()
     st.subheader("Filters")
-    st.segmented_control("Group By", ("Day", "Week", "Month"))
+    date_group = st.segmented_control("Group By", ("Day", "Week", "Month"), default= 'Day')
     st.text(" ")
     start_date, end_date = st.date_input("Select Date Range", (first_day_of_month, last_day_of_month))
 
@@ -60,7 +60,35 @@ with cols3:
 
 df_activity = df[(df["METRIC_NAME"] == 'activity.score') & (df["DAY"] >= start_date)& (df["DAY"] <= end_date)]
 
-df["DAY"] = pd.to_datetime(df["DAY"]).dt.date
+df_activity['activity.week'] = pd.to_datetime(df_activity["DAY"]).dt.to_period("W").dt.start_time
+
+df_activity["activity.month"] = (
+    pd.to_datetime(df_activity["DAY"]).dt.to_period("M").dt.start_time
+)
+
+st.dataframe(df_activity)
+
+if date_group == "Day":
+    df_activity = (
+        df_activity.groupby("DAY")
+          .mean(numeric_only=True)
+          .reset_index()
+          .rename(columns={"DAY": "date_period"})
+    )
+elif date_group == "Week":
+    df_activity = (
+        df_activity.groupby("activity.week")
+          .mean(numeric_only=True)
+          .reset_index()
+          .rename(columns={"activity.week": "date_period"})
+    )
+elif date_group == "Month":
+    df_activity = (
+        df_activity.groupby("activity.month")
+          .mean(numeric_only=True)
+          .reset_index()
+          .rename(columns={"activity.month": "date_period"})
+    )
 
 cols1, cols2 = st.columns([3,1])
 with cols1:
@@ -68,4 +96,5 @@ with cols1:
 with cols2:
     st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
 with st.container(border=True):
-    area_line_chart(df_activity, x_axis="DAY", y_axis="VALUE", color="#FFDC1E")
+    st.dataframe(df_activity)
+    area_line_chart(df_activity, x_axis="date_period", y_axis="VALUE", color="#FFDC1E")

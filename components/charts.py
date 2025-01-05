@@ -5,7 +5,9 @@ def area_line_chart(data, x_axis, y_axis, color='#FFDC1E'):
         "mark": {
             "type": "area",
             "interpolate": "monotone",
-            "line": {"color": color},
+            "line": {
+                "color": color
+            },
             "color": {
                 "gradient": "linear",
                 "x1": 1,
@@ -16,6 +18,13 @@ def area_line_chart(data, x_axis, y_axis, color='#FFDC1E'):
                     {"offset": 0, "color": "#1d1d1d"},
                     {"offset": 1, "color": color}
                 ]
+            },
+            "point": {
+                "filled": True,
+                "fill": "#0F1116",    # No fill to create a hollow effect
+                "size": 60,           # Adjust dot size
+                "stroke": color,      # Outline color
+                "strokeWidth": 2     # Thickness of the donut outline
             }
         },
         "encoding": {
@@ -33,8 +42,8 @@ def area_line_chart(data, x_axis, y_axis, color='#FFDC1E'):
                 "axis": {
                     "grid": True,
                     "title": None,
-                    "tickCount": 6,  # Ensure 6 ticks (e.g., 0, 20, 40, 60, 80, 100)
-                    "values": [0, 20, 40, 60, 80, 100]  # Set explicit tick values
+                    "tickCount": 6,
+                    "values": [0, 20, 40, 60, 80, 100]
                 }
             }
         }
