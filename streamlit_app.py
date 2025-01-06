@@ -58,7 +58,7 @@ with cols2:
 with cols3:
     summary_card(title = "Activity Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73, information = "Test")
 
-cols1, cols2 = st.columns([3,1])
+cols1, cols2 = st.columns([2,2])
 with cols1:
     st.header("Comparison")
 with cols2:
