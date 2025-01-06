@@ -1,30 +1,18 @@
 import streamlit as st
 
-def area_line_chart(data, x_axis, y_axis, color='#FFDC1E'):
+def line_chart(data, x_axis, y_axis, series):
+    """
+    Create a multi-line chart with filled dots. Each series gets
+    an automatically assigned color that applies to both the line
+    and its dots.
+    """
     chart_spec = {
         "mark": {
-            "type": "area",
+            "type": "line",
             "interpolate": "monotone",
-            "line": {
-                "color": color
-            },
-            "color": {
-                "gradient": "linear",
-                "x1": 1,
-                "y1": 1,
-                "x2": 1,
-                "y2": 0,
-                "stops": [
-                    {"offset": 0, "color": "#1d1d1d"},
-                    {"offset": 1, "color": color}
-                ]
-            },
             "point": {
-                "filled": True,
-                "fill": "#0F1116",    # No fill to create a hollow effect
-                "size": 60,           # Adjust dot size
-                "stroke": color,      # Outline color
-                "strokeWidth": 2     # Thickness of the donut outline
+                "filled": True,   # Ensure dots are filled
+                "size": 50
             }
         },
         "encoding": {
@@ -45,9 +33,12 @@ def area_line_chart(data, x_axis, y_axis, color='#FFDC1E'):
                     "tickCount": 6,
                     "values": [0, 20, 40, 60, 80, 100]
                 }
+            },
+            "color": {
+                "field": series,      # Assign a color per series
+                "type": "nominal"
             }
         }
     }
 
-    # Display the chart
     st.vega_lite_chart(data, chart_spec, use_container_width=True)

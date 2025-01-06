@@ -6,7 +6,7 @@ from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
 from data.snowflake_data import get_health_data
 from components.summary_card import summary_card
-from components.charts import area_line_chart
+from components.charts import line_chart
 from styling.css import summary_card_styling, hide_streamlit_menu
 
 st.set_page_config(
@@ -58,45 +58,54 @@ with cols2:
 with cols3:
     summary_card(title = "Activity Score", caption = "Today vs. Yesterday", current_value = 73, previous_value = 73, information = "Test")
 
-df_activity = df[(df["METRIC_NAME"] == 'activity.score') & (df["DAY"] >= start_date)& (df["DAY"] <= end_date)]
-
-df_activity['activity.week'] = pd.to_datetime(df_activity["DAY"]).dt.to_period("W").dt.start_time
-
-df_activity["activity.month"] = (
-    pd.to_datetime(df_activity["DAY"]).dt.to_period("M").dt.start_time
-)
-
-if date_group == "Day":
-    df_activity = (
-        df_activity.groupby("DAY")
-          .mean(numeric_only=True)
-          .round(0)
-          .reset_index()
-          .rename(columns={"DAY": "date_period"})
-    )
-elif date_group == "Week":
-    df_activity = (
-        df_activity.groupby("activity.week")
-          .mean(numeric_only=True)
-          .round(0)
-          .reset_index()
-          .rename(columns={"activity.week": "date_period"})
-    )
-elif date_group == "Month":
-    df_activity = (
-        df_activity.groupby("activity.month")
-          .mean(numeric_only=True)
-          .round(0)
-          .reset_index()
-          .rename(columns={"activity.month": "date_period"})
-    )
-
 cols1, cols2 = st.columns([3,1])
 with cols1:
     st.header("Comparison")
 with cols2:
-    st.multiselect("", ("Test1", "Test2"), placeholder="Select Metrics")
+    metric = st.multiselect("", ("Activity", "Sleep", "Readiness"), placeholder="Select Metrics", default=['Activity', 'Sleep', 'Readiness'])
+    df_activity = df[(df["DAY"] >= start_date) & (df["DAY"] <= end_date)]
+
+    metrics_to_include = []
+    if "Activity" in metric:
+        metrics_to_include.append("activity.score")
+    if "Sleep" in metric:
+        metrics_to_include.append("daily_sleep.score")
+    if "Readiness" in metric:
+        metrics_to_include.append("readiness.score")
+
+    df_activity = df_activity[df_activity["METRIC_NAME"].isin(metrics_to_include)]
+
+    df_activity['activity.week'] = pd.to_datetime(df_activity["DAY"]).dt.to_period("W").dt.start_time
+
+    df_activity["activity.month"] = (
+        pd.to_datetime(df_activity["DAY"]).dt.to_period("M").dt.start_time
+    )
+
+    if date_group == "Day":
+        df_activity = (
+            df_activity.groupby(["DAY", "METRIC_NAME"])
+            .mean(numeric_only=True)
+            .round(0)
+            .reset_index()
+            .rename(columns={"DAY": "date_period"})
+        )
+    elif date_group == "Week":
+        df_activity = (
+            df_activity.groupby(["activity.week", "METRIC_NAME"])
+            .mean(numeric_only=True)
+            .round(0)
+            .reset_index()
+            .rename(columns={"activity.week": "date_period"})
+        )
+    elif date_group == "Month":
+        df_activity = (
+            df_activity.groupby(["activity.month", "METRIC_NAME"])
+            .mean(numeric_only=True)
+            .round(0)
+            .reset_index()
+            .rename(columns={"activity.month": "date_period"})
+        )
 with st.container(border=True):
     st.subheader("Comparison", help="Compare various metrics and see how your scores correlate together")
     st.write(f''':gray[{start_date} - {end_date}]''')
-    area_line_chart(df_activity, x_axis="date_period", y_axis="VALUE", color="#FFDC1E")
+    line_chart(df_activity, x_axis="date_period", y_axis="VALUE", series= "METRIC_NAME")
