@@ -112,5 +112,4 @@ with cols2:
 
 with st.container(border=True):
     st.subheader("Comparison", help="Compare various metrics and see how your scores correlate together")
-    st.write(f''':gray[{start_date} - {end_date}]''')
     line_chart(df_activity, x_axis="date_period", y_axis="VALUE", series= "METRIC_NAME")
