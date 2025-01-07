@@ -7,7 +7,7 @@ from snowflake.snowpark.functions import col
 from data.snowflake_data import get_health_data
 from components.summary_card import summary_card
 from components.charts import line_chart
-from styling.css import summary_card_styling, hide_streamlit_menu
+from styling.css import summary_card_styling, hide_streamlit_menu, multi_select_styling
 
 st.set_page_config(
     page_title="Travor's Health Tracker",
@@ -16,9 +16,13 @@ st.set_page_config(
 
 st.logo("https://i.ibb.co/0Gt9DcG/Group-1554-1.png", size="large")
 
+
+### CSS Styling
 hide_streamlit_menu()
 
 summary_card_styling()
+
+multi_select_styling()
 
 today = datetime.date.today()
 first_day_of_month = datetime.date(2024, 10, 1)
@@ -104,7 +108,8 @@ with cols2:
             .round(0)
             .reset_index()
             .rename(columns={"activity.month": "date_period"})
-        )
+        )   
+
 with st.container(border=True):
     st.subheader("Comparison", help="Compare various metrics and see how your scores correlate together")
     st.write(f''':gray[{start_date} - {end_date}]''')
